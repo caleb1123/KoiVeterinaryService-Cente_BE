@@ -1,16 +1,18 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "Account")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Customer {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;
@@ -25,7 +27,10 @@ public class Customer {
     private String password;
 
     @Column
-    private String address;
+    private String phone;
+
+    @Column
+    private boolean active;
 
     @Column
     private String dob;
@@ -34,9 +39,9 @@ public class Customer {
     private String email;
 
     @Column
-    private String phone;
+    private String address;
 
-
-
-
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 }
