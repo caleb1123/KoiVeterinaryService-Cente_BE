@@ -1,6 +1,7 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.service.impl;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.OTP;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Role;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.AppException;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.ErrorCode;
@@ -11,6 +12,7 @@ import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.IntrospectResp
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.LoginResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.AccountRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.BlackTokenRepository;
+import com.myclass.KoiVeterinaryService.Cente_BE.repository.OTPRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.RoleRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.AuthService;
 import com.nimbusds.jose.*;
@@ -18,6 +20,7 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import jakarta.mail.MessagingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +32,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -48,11 +52,16 @@ public class AuthServiceImpl implements AuthService {
     private AccountRepository accountRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private MailService emailService;
 
     @Autowired
     private BlackTokenRepository blackListTokenRepository;
 
+    @Autowired
+    private OTPRepository otpRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
     @Override
     public LoginResponse login(LoginRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -100,6 +109,7 @@ public class AuthServiceImpl implements AuthService {
         Role userRole = roleRepository.findById(1)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         account.setRole(userRole);
+        account.setActive(false);
 
         accountRepository.save(account);
 
@@ -157,6 +167,8 @@ public class AuthServiceImpl implements AuthService {
         return IntrospectResponse.builder().valid(isValid).build();
     }
 
+
+
     private SignedJWT verifyToken(String token, boolean isRefresh) throws JOSEException, ParseException {
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
 
@@ -175,5 +187,49 @@ public class AuthServiceImpl implements AuthService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         return signedJWT;
+    }
+    //generate OTP
+    public String generateOTP() {
+        Random random = new Random();
+        return String.format("%06d", random.nextInt(1000000));  // Tạo OTP 6 chữ số
+    }
+
+    @Override
+    public void createAndSendOTP(String email) throws MessagingException {
+        String otpCode = generateOTP();
+        var user = accountRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        // Tạo đối tượng OTP
+        OTP otp = OTP.builder()
+                .email(email)
+                .otp(otpCode)
+                .expiryDate(Instant.now().plus(15, ChronoUnit.MINUTES))  // OTP hết hạn sau 15 phút
+                .build();
+
+        // Lưu OTP vào database
+        otpRepository.save(otp);
+
+        // Gửi OTP tới email người dùng
+        emailService.sendOTPtoActiveAccount(email, otpCode, user.getFullName());
+    }
+
+    @Override
+    public boolean verifyOTP(String email, String otp) {
+        OTP otpEntity = otpRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.OTP_NOT_FOUND));
+
+        if (otpEntity.isExpired()) {
+            otpRepository.delete(otpEntity);
+            throw new AppException(ErrorCode.OTP_EXPIRED);
+        }
+
+        if (otpEntity.getOtp().equals(otp)) {
+            otpRepository.delete(otpEntity);
+            Account user = accountRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+            user.setActive(true);
+            accountRepository.save(user);
+            return true;
+        }
+
+        return false;
     }
 }

@@ -48,8 +48,9 @@ public enum ErrorCode {
     HIGHEST_BIDDER_CANNOT_BID_AGAIN(1039,"You are the highest bidder",HttpStatus.BAD_REQUEST),
     AUCTION_NOT_ONGOING(1040,"Auction is not ongoing",HttpStatus.BAD_REQUEST),
     ROLE_NOT_FOUND(1042,"Role not found",HttpStatus.NOT_FOUND),
-    ACCOUNT_INACTIVE(1041, "Account has not been activated", HttpStatus.FORBIDDEN);
-
+    ACCOUNT_INACTIVE(1041, "Account has not been activated", HttpStatus.FORBIDDEN),
+    OTP_NOT_FOUND(1043, "OTP not found", HttpStatus.NOT_FOUND),
+    OTP_EXPIRED(1044, "OTP has expired", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
