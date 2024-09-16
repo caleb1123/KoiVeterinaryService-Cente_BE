@@ -71,4 +71,43 @@ public class AuthController {
             return ResponseEntity.status(404).body("User not found.");
         }
     }
+
+    //Send OTP to change password
+    @PostMapping("/send-otp-change-password")
+    public ResponseEntity<String> sendOTPChangePassword(@RequestParam String email) {
+        try {
+            authService.SendOTPChangePassword(email);  // Gọi service tạo và gửi OTP
+            return ResponseEntity.ok("OTP has been sent to " + email);
+        } catch (AppException e) {
+            return ResponseEntity.status(404).body("User not found.");
+        } catch (MessagingException | jakarta.mail.MessagingException e) {
+            return ResponseEntity.status(500).body("Failed to send OTP email.");
+        }
+    }
+
+    // Xác thực OTP
+    @PostMapping("/verify-otp-change-password")
+    public ResponseEntity<String> verifyOTPChangePassword(@RequestParam String email, @RequestParam String otp) {
+        try {
+            boolean result = authService.verifyOTPChangePassword(email, otp); // Gọi service xác thực OTP
+            if (result) {
+                return ResponseEntity.ok("OTP verified successfully");
+            } else {
+                return ResponseEntity.status(400).body("OTP verification failed");
+            }
+        } catch (AppException e) {
+            return ResponseEntity.status(404).body("User not found.");
+        }
+    }
+
+    // Đổi mật khẩu
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestParam String email, @RequestParam String password) {
+        try {
+            authService.changePassword(email, password); // Gọi service đổi mật khẩu
+            return ResponseEntity.ok("Password changed successfully");
+        } catch (AppException e) {
+            return ResponseEntity.status(404).body("User not found.");
+        }
+    }
 }
