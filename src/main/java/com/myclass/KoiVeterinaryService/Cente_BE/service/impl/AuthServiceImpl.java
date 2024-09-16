@@ -232,4 +232,57 @@ public class AuthServiceImpl implements AuthService {
 
         return false;
     }
+
+    @Override
+    public void SendOTPChangePassword(String email) throws MessagingException {
+        String otpCode = generateOTP();
+        var user = accountRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        // Tạo đối tượng OTP
+        OTP otp = OTP.builder()
+                .email(email)
+                .otp(otpCode)
+                .expiryDate(Instant.now().plus(15, ChronoUnit.MINUTES))  // OTP hết hạn sau 15 phút
+                .build();
+
+        // Lưu OTP vào database
+        otpRepository.save(otp);
+
+        // Gửi OTP tới email người dùng
+        emailService.sendOTPtoChangePasswordAccount(email, otpCode, user.getFullName());
+    }
+
+    @Override
+    public boolean verifyOTPChangePassword(String email, String otp) {
+        OTP otpEntity = otpRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.OTP_NOT_FOUND));
+
+        if (otpEntity.isExpired()) {
+            otpRepository.delete(otpEntity);
+            throw new AppException(ErrorCode.OTP_EXPIRED);
+        }
+
+        if (otpEntity.getOtp().equals(otp)) {
+            otpRepository.delete(otpEntity);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public Account changePassword(String email, String password) {
+        Account account = accountRepository.findByEmail(email).orElse(null);
+        if(account == null){
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        }
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+        String encodedPassword = passwordEncoder.encode(password);
+        account.setPassword(encodedPassword);
+
+        // Lưu thay đổi vào cơ sở dữ liệu
+        accountRepository.save(account);
+
+        return account;
+    }
 }

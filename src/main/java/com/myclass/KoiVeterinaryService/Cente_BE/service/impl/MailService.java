@@ -35,9 +35,24 @@ public class MailService {
                 "<h3 style=\"color: #0D6EFD;\">" + otp + "</h3>" +
                 "<p>This OTP code will expire in 15 minutes.</p>" +
                 "<p>Thank you for using Koi Veterinary Service!</p>" +
-                "<p>Best regards,<br/>Mercury</p>" +
+                "<p>Best regards,<br/>Koi Veterinary Service</p>" +
                 "</body>" +
                 "</html>";
         sendNewMail(to, subject, body,fullname);
+    }
+
+    public void sendOTPtoChangePasswordAccount(String to, String otp, String fullname) throws MessagingException {
+        String subject = "OTP to reset password - Koi Veterinary Service";
+        String body = "<html>" +
+                "<body>" +
+                "<h2 style=\"color: #0D6EFD;\">OTP Code</h2>" +
+                "<p>Dear " + fullname + ",</p>" +
+                "<p>We received a request to reset the password for your account. Use the OTP code below to reset your password:</p>" +
+                "<h3 style=\"color: #0D6EFD;\">" + otp + "</h3>" +
+                "<p>This OTP will expire in 15 minutes.</p>" +
+                "<p>Best regards,<br/>Koi Veterinary Service</p>" +
+                "</body>" +
+                "</html>";
+        sendNewMail(to, subject, body, fullname);
     }
 }
