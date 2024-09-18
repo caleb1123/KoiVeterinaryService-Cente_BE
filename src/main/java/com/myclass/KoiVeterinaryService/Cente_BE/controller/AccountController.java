@@ -1,6 +1,7 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.controller;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateAccountRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,5 +38,38 @@ public class AccountController {
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Account> updateAccount(@RequestBody AccountDTO account, @RequestParam String userName) {
+        Account updatedAccount = accountService.updateAccount(account, userName);
+
+        if (updatedAccount == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedAccount);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteAccount(@RequestParam String userName) {
+        boolean result = accountService.deleteAccount(userName);
+
+        if (!result) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Delete fail");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("Delete success");
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<Account> findByUserName(@RequestParam String userName) {
+        Account account = accountService.findByUserName(userName);
+
+        if (account == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(account);
     }
 }
