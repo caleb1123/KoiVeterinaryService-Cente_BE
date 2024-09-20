@@ -34,4 +34,4 @@ jobs:
           fi
           # Run new container
           echo ":: Running new container - $CNAME"
-          docker run -d --name $CNAME myapp-command:latest
+          docker run -d -p 8080:8080 --name $CNAME myapp-command:latest
