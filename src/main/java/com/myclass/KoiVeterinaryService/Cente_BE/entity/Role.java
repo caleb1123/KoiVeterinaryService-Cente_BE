@@ -17,7 +17,9 @@ public class Role {
     private int roleId;
 
     @Enumerated(EnumType.STRING) // Lưu giá trị enum dưới dạng chuỗi
-    @Column(length = 20)
+    @Column(length = 20, nullable = false) // Đảm bảo cột này không được phép null
     private ERole roleName;
 
+    @OneToMany(mappedBy = "role")
+    private List<Account> accounts;
 }

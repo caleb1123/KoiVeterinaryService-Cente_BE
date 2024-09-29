@@ -3,6 +3,7 @@ package com.myclass.KoiVeterinaryService.Cente_BE.controller;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateAccountRequest;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.AvailableVeterinariansResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -30,8 +32,8 @@ public class AccountController {
         }
     }
     @PostMapping("/create")
-    public ResponseEntity<Account> createAccount(@RequestBody CreateAccountRequest accountRequest) {
-        Account account = accountService.createAccount(accountRequest);
+    public ResponseEntity<AccountDTO> createAccount(@RequestBody CreateAccountRequest accountRequest) {
+        AccountDTO account = accountService.createAccount(accountRequest);
 
         if (account == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -71,5 +73,11 @@ public class AccountController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(account);
+    }
+
+    @GetMapping("/available")
+    public List<AvailableVeterinariansResponse> getAvailableVeterinarians(@RequestParam String date, @RequestParam Integer shiftId) {
+        LocalDate specificDate = LocalDate.parse(date);
+        return accountService.findAvailableVeterinarians(specificDate, shiftId);
     }
 }
