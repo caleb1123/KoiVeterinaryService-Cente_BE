@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "ServiceRequest")
@@ -33,10 +35,11 @@ public class ServiceRequest {
     private ServiceKoi service;
 
     @Column(nullable = false)
-    private LocalDateTime appointmentTime;  // Ngày và giờ hẹn
+    private LocalDate appointmentTime;
 
-    @Column
-    private LocalDateTime endAppointmentTime;  // Ngày và giờ kết thúc (tùy chọn)
+    @ManyToOne
+    @JoinColumn(name = "shift_id", nullable = false)
+    private Shift shift;
 
 
     // Sử dụng EStatus enum cho trường status

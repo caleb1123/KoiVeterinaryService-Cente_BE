@@ -4,6 +4,6 @@ import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateServiceRequestDTO;
 
 public interface ServiceRequestService {
-    ServiceRequestDTO createVetAppointmentService(CreateServiceRequestDTO serviceRequestDTO);
+    CreateServiceRequestDTO createVetAppointmentService(CreateServiceRequestDTO serviceRequestDTO);
 
 }

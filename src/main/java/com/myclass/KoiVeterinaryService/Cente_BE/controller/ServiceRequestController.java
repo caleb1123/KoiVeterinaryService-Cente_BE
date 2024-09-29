@@ -18,8 +18,8 @@ public class ServiceRequestController {
     private ServiceRequestService serviceRequestService;
 
     @PostMapping("/appointments")
-    public ResponseEntity<ServiceRequestDTO> createVetAppointment(@RequestBody CreateServiceRequestDTO serviceRequestDTO) {
-        ServiceRequestDTO createdServiceRequest = serviceRequestService.createVetAppointmentService(serviceRequestDTO);
-        return new ResponseEntity<>(createdServiceRequest, HttpStatus.CREATED);
+    public ResponseEntity<CreateServiceRequestDTO> createVetAppointment(@RequestBody CreateServiceRequestDTO serviceRequestDTO) {
+        CreateServiceRequestDTO createdServiceRequest1 = serviceRequestService.createVetAppointmentService(serviceRequestDTO);
+        return new ResponseEntity<>(createdServiceRequest1, HttpStatus.CREATED);
     }
 }

@@ -4,7 +4,9 @@ import com.myclass.KoiVeterinaryService.Cente_BE.entity.EStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +20,9 @@ public class CreateServiceRequestDTO {
 
     private int serviceId; // ID của dịch vụ (ServiceKoi)
 
-    private LocalDateTime appointmentTime; // Ngày và giờ hẹn
+    private int shiftId; // ID của ca làm việc (Shift)
+
+    private LocalDate appointmentTime; // Ngày và giờ hẹn
 
 
 }
