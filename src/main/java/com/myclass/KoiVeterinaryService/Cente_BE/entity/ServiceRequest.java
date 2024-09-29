@@ -25,7 +25,7 @@ public class ServiceRequest {
     private Account customer;
 
     @ManyToOne
-    @JoinColumn(name = "veterinarian_id", nullable = false)
+    @JoinColumn(name = "veterinarian_id")
     private Account veterinarian;
 
     @ManyToOne
@@ -38,8 +38,6 @@ public class ServiceRequest {
     @Column
     private LocalDateTime endAppointmentTime;  // Ngày và giờ kết thúc (tùy chọn)
 
-    @Column
-    private Double total;
 
     // Sử dụng EStatus enum cho trường status
     @Enumerated(EnumType.STRING)

@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
         Account account2 = new Account();
         modelMapper.map(account, account2);
         account2.setActive(true);
-        account2.setRole(roleRepository.findByRoleId(account.getRodeId()));
+        account2.setRole(roleRepository.findRoleByRoleId(account.getRodeId()));
         if(account2.getRole() == null){
             throw new AppException(ErrorCode.ROLE_NOT_FOUND);
         }

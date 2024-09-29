@@ -1,0 +1,25 @@
+package com.myclass.KoiVeterinaryService.Cente_BE.controller;
+
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.service.ServiceRequestService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/servicekoi")
+@Slf4j
+@CrossOrigin(origins = "http://localhost:3000")
+public class ServiceRequestController {
+    @Autowired
+    private ServiceRequestService serviceRequestService;
+
+    @PostMapping("/appointments")
+    public ResponseEntity<ServiceRequestDTO> createVetAppointment(@RequestBody CreateServiceRequestDTO serviceRequestDTO) {
+        ServiceRequestDTO createdServiceRequest = serviceRequestService.createVetAppointmentService(serviceRequestDTO);
+        return new ResponseEntity<>(createdServiceRequest, HttpStatus.CREATED);
+    }
+}

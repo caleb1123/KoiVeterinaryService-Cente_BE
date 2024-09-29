@@ -5,7 +5,7 @@ import com.myclass.KoiVeterinaryService.Cente_BE.exception.AppException;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.ErrorCode;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.UpdateServiceRequest;
-import com.myclass.KoiVeterinaryService.Cente_BE.repository.ServiceRepository;
+import com.myclass.KoiVeterinaryService.Cente_BE.repository.ServiceKoiRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.ServiceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class ServiceServiceImpl implements ServiceService {
     @Autowired
-    private ServiceRepository serviceRepository;
+    private ServiceKoiRepository serviceRepository;
 
     @Autowired
     private ModelMapper modelMapper;

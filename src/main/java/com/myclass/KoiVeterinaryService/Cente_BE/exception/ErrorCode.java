@@ -52,7 +52,8 @@ public enum ErrorCode {
     OTP_NOT_FOUND(1043, "OTP not found", HttpStatus.NOT_FOUND),
     OTP_EXPIRED(1044, "OTP has expired", HttpStatus.BAD_REQUEST),
     SERVICE_EXISTED(1045, "Service existed", HttpStatus.BAD_REQUEST),
-    SERVICE_NOT_FOUND(1046, "Service not found", HttpStatus.NOT_FOUND);
+    SERVICE_NOT_FOUND(1046, "Service not found", HttpStatus.NOT_FOUND),
+    SERVICE_NOT_EXISTED(1047, "Service not existed", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
