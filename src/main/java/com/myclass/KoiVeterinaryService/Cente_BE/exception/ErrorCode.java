@@ -50,7 +50,9 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(1042,"Role not found",HttpStatus.NOT_FOUND),
     ACCOUNT_INACTIVE(1041, "Account has not been activated", HttpStatus.FORBIDDEN),
     OTP_NOT_FOUND(1043, "OTP not found", HttpStatus.NOT_FOUND),
-    OTP_EXPIRED(1044, "OTP has expired", HttpStatus.BAD_REQUEST);
+    OTP_EXPIRED(1044, "OTP has expired", HttpStatus.BAD_REQUEST),
+    SERVICE_EXISTED(1045, "Service existed", HttpStatus.BAD_REQUEST),
+    SERVICE_NOT_FOUND(1046, "Service not found", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
