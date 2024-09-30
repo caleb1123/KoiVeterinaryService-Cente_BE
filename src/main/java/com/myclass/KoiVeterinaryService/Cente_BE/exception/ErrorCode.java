@@ -56,7 +56,11 @@ public enum ErrorCode {
     SERVICE_NOT_EXISTED(1047, "Service not existed", HttpStatus.NOT_FOUND),
     SHIFT_NOT_EXISTED(1048, "Shift not existed", HttpStatus.NOT_FOUND),
     VETERINARIAN_NOT_AVAILABLE(1049, "Veterinarian not available", HttpStatus.BAD_REQUEST),
-    VETERINARIAN_NOT_EXISTED(1050, "Veterinarian not existed", HttpStatus.NOT_FOUND);
+    VETERINARIAN_NOT_EXISTED(1050, "Veterinarian not existed", HttpStatus.NOT_FOUND),
+    SERVICE_REQUEST_NOT_EXISTED(1051, "Service request not existed", HttpStatus.NOT_FOUND),
+    SERVICE_REQUEST_NOT_PENDING(1052, "Service request not pending", HttpStatus.BAD_REQUEST),
+    SERVICE_REQUEST_NOT_COMPLETED(1053, "Service request not completed", HttpStatus.BAD_REQUEST),
+    SERVICE_REQUEST_COMPLETED(1054, "Service request completed", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

@@ -1,11 +1,11 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.payload.dto;
 
-import com.myclass.KoiVeterinaryService.Cente_BE.entity.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,17 +13,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ServiceRequestDTO {
-    private int customerId; // ID của khách hàng (Account)
 
-    private int veterinarianId; // ID của bác sĩ thú y (Account)
+    private int requestId; // The ID of the service request
 
-    private int serviceId; // ID của dịch vụ (ServiceKoi)
+    private int customerId; // The customer ID
+    private int veterinarianId; // The veterinarian ID (optional)
+    private int serviceId; // The service ID
+    private int shiftId; // The shift ID
 
-    private LocalDateTime appointmentTime; // Ngày và giờ hẹn
+    private LocalDate appointmentTime; // The appointment time
+    private LocalDateTime completedTime; // The completed time (optional)
 
-    private LocalDateTime endAppointmentTime; // Ngày và giờ kết thúc (tùy chọn)
+    private String status; // The status of the request (ENUM as String)
 
-    private Double total; // Tổng chi phí
-
-    private EStatus status; // Trạng thái của yêu cầu
+    // You can add more fields if necessary, such as service name, veterinarian name, etc.
 }

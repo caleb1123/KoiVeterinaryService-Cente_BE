@@ -1,6 +1,7 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.service.impl;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.ERole;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.AppException;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.ErrorCode;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
@@ -115,6 +116,15 @@ public class AccountServiceImpl implements AccountService {
                         (String) veterinarian[2], // phone
                         (String) veterinarian[3]  // email
                 ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AccountDTO> findAccountByRole(String roleName) {
+        ERole roleEnum = ERole.valueOf(roleName);
+        List<Account> accounts = accountRepository.findAccountByRole_RoleName(roleEnum);
+        return accounts.stream()
+                .map(account -> modelMapper.map(account, AccountDTO.class))
                 .collect(Collectors.toList());
     }
 

@@ -1,6 +1,7 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.service;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.ERole;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateAccountRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.AvailableVeterinariansResponse;
@@ -17,4 +18,6 @@ public interface AccountService {
 
     Account findByUserName(String userName);
     List<AvailableVeterinariansResponse> findAvailableVeterinarians(LocalDate specificDate, Integer shiftId);
+    List<AccountDTO> findAccountByRole(String roleName);
+
 }
