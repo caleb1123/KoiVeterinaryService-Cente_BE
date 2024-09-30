@@ -1,6 +1,7 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.repository;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.ERole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -41,4 +42,6 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
                 AND a.account_id NOT IN (SELECT veterinarian_id FROM BookedVeterinarians)
             """, nativeQuery = true)
     List<Object[]> findAvailableVeterinarians(LocalDate specificDate, Integer shiftId);
+
+    List<Account> findAccountByRole_RoleName(ERole roleName);
 }

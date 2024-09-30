@@ -64,7 +64,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body("Delete success");
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findbyusername")
     public ResponseEntity<Account> findByUserName(@RequestParam String userName) {
         Account account = accountService.findByUserName(userName);
 
@@ -79,5 +79,10 @@ public class AccountController {
     public List<AvailableVeterinariansResponse> getAvailableVeterinarians(@RequestParam String date, @RequestParam Integer shiftId) {
         LocalDate specificDate = LocalDate.parse(date);
         return accountService.findAvailableVeterinarians(specificDate, shiftId);
+    }
+
+    @GetMapping("/role")
+    public List<AccountDTO> getAccountByRole(@RequestParam String roleName) {
+        return accountService.findAccountByRole(roleName);
     }
 }

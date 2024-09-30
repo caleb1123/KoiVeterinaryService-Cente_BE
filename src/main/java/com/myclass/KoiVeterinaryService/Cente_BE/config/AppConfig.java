@@ -1,5 +1,7 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.config;
 
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.ServiceRequest;
 import org.modelmapper.ModelMapper;
@@ -16,7 +18,9 @@ public class AppConfig {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-
+        modelMapper.typeMap(Account.class, AccountDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getRole().getRoleId(), AccountDTO::setRoleId);
+        });
         return modelMapper;
     }
 }
