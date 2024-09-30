@@ -44,4 +44,5 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     List<Object[]> findAvailableVeterinarians(LocalDate specificDate, Integer shiftId);
 
     List<Account> findAccountByRole_RoleName(ERole roleName);
+    List<Account> findAccountByActive(boolean active);
 }

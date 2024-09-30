@@ -128,5 +128,13 @@ public class AccountServiceImpl implements AccountService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<AccountDTO> findAccountByActive(boolean active) {
+        List<Account> accounts = accountRepository.findAccountByActive(active);
+        return accounts.stream()
+                .map(account -> modelMapper.map(account, AccountDTO.class))
+                .collect(Collectors.toList());
+    }
+
 
 }

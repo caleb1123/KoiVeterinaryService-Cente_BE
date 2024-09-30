@@ -85,4 +85,9 @@ public class AccountController {
     public List<AccountDTO> getAccountByRole(@RequestParam String roleName) {
         return accountService.findAccountByRole(roleName);
     }
+
+    @GetMapping("/active")
+    public List<AccountDTO> getAccountByActive(@RequestParam boolean active) {
+        return accountService.findAccountByActive(active);
+    }
 }

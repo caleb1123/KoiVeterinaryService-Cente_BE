@@ -19,5 +19,5 @@ public interface AccountService {
     Account findByUserName(String userName);
     List<AvailableVeterinariansResponse> findAvailableVeterinarians(LocalDate specificDate, Integer shiftId);
     List<AccountDTO> findAccountByRole(String roleName);
-
+    List<AccountDTO> findAccountByActive(boolean active);
 }
