@@ -22,4 +22,16 @@ public class ServiceRequestController {
         CreateServiceRequestDTO createdServiceRequest1 = serviceRequestService.createVetAppointmentService(serviceRequestDTO);
         return new ResponseEntity<>(createdServiceRequest1, HttpStatus.CREATED);
     }
+
+    @PutMapping("/appointments/completed/{serviceRequestId}")
+    public ResponseEntity<ServiceRequestDTO> markServiceRequestAsCompleted(@RequestParam Integer serviceRequestId) {
+        ServiceRequestDTO serviceRequestDTO = serviceRequestService.markServiceRequestAsCompleted(serviceRequestId);
+        return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
+    }
+
+    @PutMapping("/appointments/cancelled/{serviceRequestId}")
+    public ResponseEntity<ServiceRequestDTO> markServiceRequestAsCANCELLED(@RequestParam Integer serviceRequestId) {
+        ServiceRequestDTO serviceRequestDTO = serviceRequestService.markServiceRequestAsCANCELLED(serviceRequestId);
+        return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
+    }
 }

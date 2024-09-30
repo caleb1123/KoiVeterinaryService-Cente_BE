@@ -37,6 +37,9 @@ public class ServiceRequest {
     @Column(nullable = false)
     private LocalDate appointmentTime;
 
+    @Column
+    private LocalDateTime completedTime;
+
     @ManyToOne
     @JoinColumn(name = "shift_id", nullable = false)
     private Shift shift;

@@ -5,5 +5,7 @@ import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateServiceRe
 
 public interface ServiceRequestService {
     CreateServiceRequestDTO createVetAppointmentService(CreateServiceRequestDTO serviceRequestDTO);
+    ServiceRequestDTO markServiceRequestAsCompleted(Integer serviceRequestId);
 
+    ServiceRequestDTO markServiceRequestAsCANCELLED(Integer serviceRequestId);
 }
