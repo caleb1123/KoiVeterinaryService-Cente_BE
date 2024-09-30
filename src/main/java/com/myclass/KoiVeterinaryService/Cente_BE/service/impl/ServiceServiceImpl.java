@@ -41,8 +41,12 @@ public class ServiceServiceImpl implements ServiceService {
         if (existingServiceOpt.isPresent()) {
             ServiceKoi existingService = existingServiceOpt.get();
             existingService.setPrice(serviceDTO.getPrice());
-            existingService.setDescription(serviceDTO.getDescription());
-            existingService.setServiceType(serviceDTO.getServiceType());
+            if(serviceDTO.getDescription() != null){
+                existingService.setDescription(serviceDTO.getDescription());
+            }
+            if(serviceDTO.getServiceType() != null){
+                existingService.setServiceType(serviceDTO.getServiceType());
+            }
             existingService.setActive(serviceDTO.isActive());
 
             existingService = serviceRepository.save(existingService);
@@ -73,6 +77,38 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public List<ServiceDTO> findAll() {
         List<ServiceKoi> services = serviceRepository.findAll();
+        return services.stream()
+                .map(service -> modelMapper.map(service, ServiceDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ServiceDTO> findServiceByType(String serviceType) {
+        List<ServiceKoi> services = serviceRepository.findServiceKoiByServiceType(serviceType);
+        return services.stream()
+                .map(service -> modelMapper.map(service, ServiceDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ServiceDTO> findServiceByPrice(double price) {
+        List<ServiceKoi> services = serviceRepository.findServiceKoiByPrice(price);
+        return services.stream()
+                .map(service -> modelMapper.map(service, ServiceDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ServiceDTO> findServiceByActive(boolean active) {
+        List<ServiceKoi> services = serviceRepository.findServiceKoiByIsActive(active);
+        return services.stream()
+                .map(service -> modelMapper.map(service, ServiceDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ServiceDTO> findServiceByServiceName(String serviceName) {
+        List<ServiceKoi> services = serviceRepository.findServiceKoiByServiceName(serviceName);
         return services.stream()
                 .map(service -> modelMapper.map(service, ServiceDTO.class))
                 .collect(Collectors.toList());

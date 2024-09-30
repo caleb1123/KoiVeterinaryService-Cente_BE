@@ -11,4 +11,12 @@ public interface ServiceService {
     boolean deleteService(String serviceName);
     ServiceDTO findById(String serviceName);
     List<ServiceDTO> findAll();
+
+    List<ServiceDTO> findServiceByType(String serviceType);
+
+    List<ServiceDTO> findServiceByPrice(double price);
+
+    List<ServiceDTO> findServiceByActive(boolean active);
+
+    List<ServiceDTO> findServiceByServiceName(String serviceName);
 }

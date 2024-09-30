@@ -52,4 +52,28 @@ public class ServiceKoiController {
         List<ServiceDTO> serviceDTOs = serviceService.findAll();
         return ResponseEntity.ok(serviceDTOs);
     }
+
+    @GetMapping("/findbytype/{serviceType}")
+    public ResponseEntity<List<ServiceDTO>> findServiceByType(@RequestParam String serviceType) {
+        List<ServiceDTO> serviceDTOs = serviceService.findServiceByType(serviceType);
+        return ResponseEntity.ok(serviceDTOs);
+    }
+
+    @GetMapping("/findbyprice/{price}")
+    public ResponseEntity<List<ServiceDTO>> findServiceByPrice(@RequestParam double price) {
+        List<ServiceDTO> serviceDTOs = serviceService.findServiceByPrice(price);
+        return ResponseEntity.ok(serviceDTOs);
+    }
+
+    @GetMapping("/findbyactive/{active}")
+    public ResponseEntity<List<ServiceDTO>> findServiceByActive(@RequestParam boolean active) {
+        List<ServiceDTO> serviceDTOs = serviceService.findServiceByActive(active);
+        return ResponseEntity.ok(serviceDTOs);
+    }
+
+    @GetMapping("/findbyname/{serviceName}")
+    public ResponseEntity<List<ServiceDTO>> findServiceByServiceName(@RequestParam String serviceName) {
+        List<ServiceDTO> serviceDTOs = serviceService.findServiceByServiceName(serviceName);
+        return ResponseEntity.ok(serviceDTOs);
+    }
 }

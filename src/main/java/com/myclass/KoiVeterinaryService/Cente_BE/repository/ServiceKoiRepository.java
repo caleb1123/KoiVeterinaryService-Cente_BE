@@ -3,6 +3,7 @@ package com.myclass.KoiVeterinaryService.Cente_BE.repository;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.ServiceKoi;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ServiceKoiRepository extends JpaRepository<ServiceKoi, Integer> {
@@ -15,4 +16,12 @@ public interface ServiceKoiRepository extends JpaRepository<ServiceKoi, Integer>
     boolean existsByIsActive(boolean isActive);
 
     void deleteByServiceName(String serviceName);
+
+    List<ServiceKoi> findServiceKoiByServiceType(String serviceType);
+
+    List<ServiceKoi> findServiceKoiByPrice(double price);
+
+    List<ServiceKoi> findServiceKoiByIsActive(boolean isActive);
+
+    List<ServiceKoi> findServiceKoiByServiceName(String serviceName);
 }
