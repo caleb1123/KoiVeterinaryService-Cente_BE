@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Service")
 @Data
@@ -32,4 +34,7 @@ public class ServiceKoi {
 
     @Column
     private boolean isActive;
+
+    @OneToMany(mappedBy = "service")
+    private List<Bill> bills;
 }

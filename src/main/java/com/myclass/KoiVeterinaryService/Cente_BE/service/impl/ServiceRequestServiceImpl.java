@@ -34,15 +34,12 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
         Account customer = accountRepository.findAccountByAccountIdAndRole(1, serviceRequestDTO.getCustomerId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        ServiceKoi serviceKoi = serviceKoiRepository.findById(serviceRequestDTO.getServiceId())
-                .orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_EXISTED));
 
         Shift shift = shiftRepository.findById(serviceRequestDTO.getShiftId())
                 .orElseThrow(() -> new AppException(ErrorCode.SHIFT_NOT_EXISTED));
 
         ServiceRequest serviceRequest = new ServiceRequest();
         serviceRequest.setCustomer(customer);
-        serviceRequest.setService(serviceKoi);
         serviceRequest.setAppointmentTime(serviceRequestDTO.getAppointmentTime());
         serviceRequest.setStatus(EStatus.PENDING);
         serviceRequest.setShift(shift);
@@ -102,7 +99,6 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
         ServiceRequestDTO serviceRequestDTO = modelMapper.map(serviceRequest, ServiceRequestDTO.class);
         serviceRequestDTO.setCustomerId(serviceRequest.getCustomer().getAccountId());
         serviceRequestDTO.setVeterinarianId(serviceRequest.getVeterinarian().getAccountId());
-        serviceRequestDTO.setServiceId(serviceRequest.getService().getServiceId());
         serviceRequestDTO.setShiftId(serviceRequest.getShift().getShiftId());
         return serviceRequestDTO;
     }
@@ -119,7 +115,6 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
         ServiceRequestDTO serviceRequestDTO = modelMapper.map(serviceRequest, ServiceRequestDTO.class);
         serviceRequestDTO.setCustomerId(serviceRequest.getCustomer().getAccountId());
         serviceRequestDTO.setVeterinarianId(serviceRequest.getVeterinarian().getAccountId());
-        serviceRequestDTO.setServiceId(serviceRequest.getService().getServiceId());
         serviceRequestDTO.setShiftId(serviceRequest.getShift().getShiftId());
         return serviceRequestDTO;
     }

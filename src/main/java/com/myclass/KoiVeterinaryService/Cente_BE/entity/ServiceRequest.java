@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "ServiceRequest")
@@ -30,9 +31,6 @@ public class ServiceRequest {
     @JoinColumn(name = "veterinarian_id")
     private Account veterinarian;
 
-    @ManyToOne
-    @JoinColumn(name = "service_id", nullable = false)
-    private ServiceKoi service;
 
     @Column(nullable = false)
     private LocalDate appointmentTime;
@@ -49,4 +47,7 @@ public class ServiceRequest {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EStatus status;
+
+    @OneToMany(mappedBy = "serviceRequest")
+    private List<Bill> bills;
 }

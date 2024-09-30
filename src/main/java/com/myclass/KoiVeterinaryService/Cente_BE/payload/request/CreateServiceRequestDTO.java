@@ -18,8 +18,6 @@ public class CreateServiceRequestDTO {
 
     private int veterinarianId; // ID của bác sĩ thú y (Account)
 
-    private int serviceId; // ID của dịch vụ (ServiceKoi)
-
     private int shiftId; // ID của ca làm việc (Shift)
 
     private LocalDate appointmentTime; // Ngày và giờ hẹn
