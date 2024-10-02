@@ -1,8 +1,8 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.config;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
-import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
-import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.Bill;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.*;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.ServiceRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
@@ -24,6 +24,10 @@ public class AppConfig {
             mapper.map(src -> src.getRole().getRoleId(), AccountDTO::setRoleId);
         });
 
+        modelMapper.typeMap(Bill.class, BillDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getServiceRequest().getRequestId(), BillDTO::setRequestId);
+            mapper.map(src -> src.getService().getServiceId(), BillDTO::setServiceId);
+        });
         return modelMapper;
     }
 }

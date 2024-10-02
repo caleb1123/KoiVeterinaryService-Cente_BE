@@ -10,4 +10,5 @@ public interface BillService {
     void deleteById(int id);
     List<BillDTO> findAll();
     List<BillDTO> findByRequest(int requestId);
+    List<BillDTO> findRequestByActive(int requestId);
 }

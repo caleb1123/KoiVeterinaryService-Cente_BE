@@ -1,10 +1,15 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.service.impl;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Bill;
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.EStatus;
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.ServiceKoi;
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.ServiceRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.AppException;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.ErrorCode;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.BillDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.BillRepository;
+import com.myclass.KoiVeterinaryService.Cente_BE.repository.ServiceKoiRepository;
+import com.myclass.KoiVeterinaryService.Cente_BE.repository.ServiceRequestRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.BillService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +23,51 @@ public class BillServiceImpl implements BillService {
     ModelMapper modelMapper;
     @Autowired
     BillRepository billRepository;
-
+    @Autowired
+    ServiceRequestRepository serviceRequestRepository;
+    @Autowired
+    ServiceKoiRepository serviceKoiRepository;
     @Override
     public BillDTO create(BillDTO billDTO) {
-        Bill bill = modelMapper.map(billDTO, Bill.class);
+        ServiceRequest serviceRequest = serviceRequestRepository.findById(billDTO.getRequestId())
+                .orElseThrow(() -> new AppException(ErrorCode.SERVICE_REQUEST_NOT_FOUND));
+        ServiceKoi serviceKoi = serviceKoiRepository.findById(billDTO.getServiceId())
+                .orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_FOUND));
+        if(serviceRequest.getStatus() == EStatus.COMPLETED){
+           throw new AppException(ErrorCode.SERVICE_REQUEST_COMPLETED);
+        }
+        Bill bill = new Bill();
+        bill.setServiceRequest(serviceRequest);
+        bill.setService(serviceKoi);
+        bill.setStatus(true);
         billRepository.save(bill);
-        return modelMapper.map(bill, BillDTO.class);
+        billDTO.setBillId(bill.getBillId());
+        return billDTO;
     }
 
     @Override
     public BillDTO findById(int id) {
-        Bill bill = billRepository.findById(id).orElse(null);
-        return modelMapper.map(bill, BillDTO.class);
+        Bill bill = billRepository.findById(id).
+                orElseThrow(() -> new AppException(ErrorCode.BILL_NOT_FOUND));
+        BillDTO billDTO = new BillDTO();
+        billDTO.setBillId(bill.getBillId());
+        billDTO.setRequestId(bill.getServiceRequest().getRequestId());
+        billDTO.setServiceId(bill.getService().getServiceId());
+        billDTO.setStatus(bill.isStatus());
+        return billDTO;
     }
 
     @Override
     public void deleteById(int id) {
         Bill bill = billRepository.findById(id).
                 orElseThrow(() -> new AppException(ErrorCode.BILL_NOT_FOUND));
-        if (bill != null) {
-            bill.setStatus(false);
-            billRepository.save(bill);
+        ServiceRequest serviceRequest = serviceRequestRepository.findById(bill.getServiceRequest().getRequestId())
+                .orElseThrow(() -> new AppException(ErrorCode.SERVICE_REQUEST_NOT_FOUND));
+        if (serviceRequest.getStatus() == EStatus.COMPLETED) {
+           throw new AppException(ErrorCode.SERVICE_REQUEST_COMPLETED);
         }
+        bill.setStatus(false);
+        billRepository.save(bill);
     }
 
     @Override
@@ -50,7 +78,19 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public List<BillDTO> findByRequest(int requestId) {
-//        List<Bill> bills = billRepository.findBillsByServiceRequest(requestId);
-        return null;
+        List<Bill> bills = billRepository.findByRequest(requestId);
+        if (bills.isEmpty()) {
+            throw new AppException(ErrorCode.BILL_NOT_FOUND);
+        }
+        return bills.stream().map(bill -> modelMapper.map(bill, BillDTO.class)).toList();
+    }
+
+    @Override
+    public List<BillDTO> findRequestByActive(int requestId) {
+        List<Bill> bills = billRepository.findRequestByActive(requestId);
+        if (bills.isEmpty()) {
+            throw new AppException(ErrorCode.BILL_NOT_FOUND);
+        }
+        return bills.stream().map(bill -> modelMapper.map(bill, BillDTO.class)).toList();
     }
 }

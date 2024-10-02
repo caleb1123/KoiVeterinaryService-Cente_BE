@@ -41,7 +41,7 @@ public class BillController {
     public ResponseEntity<Void> deleteBill(@PathVariable int id) {
         log.info("Deleting bill with ID: {}", id);
         billService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/all")
@@ -55,6 +55,13 @@ public class BillController {
     public ResponseEntity<List<BillDTO>> getBillsByRequest(@PathVariable int requestId) {
         log.info("Fetching bills for request ID: {}", requestId);
         List<BillDTO> bills = billService.findByRequest(requestId);
+        return new ResponseEntity<>(bills, HttpStatus.OK);
+    }
+
+    @GetMapping("/request/{requestId}/active")
+    public ResponseEntity<List<BillDTO>> getActiveBillsByRequest(@PathVariable int requestId) {
+        log.info("Fetching active bills for request ID: {}", requestId);
+        List<BillDTO> bills = billService.findRequestByActive(requestId);
         return new ResponseEntity<>(bills, HttpStatus.OK);
     }
 }
