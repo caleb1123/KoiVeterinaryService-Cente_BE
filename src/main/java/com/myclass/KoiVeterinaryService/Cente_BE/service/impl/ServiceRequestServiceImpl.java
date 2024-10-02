@@ -12,6 +12,7 @@ import com.myclass.KoiVeterinaryService.Cente_BE.repository.ShiftRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.ServiceRequestService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -90,8 +91,8 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     public ServiceRequestDTO markServiceRequestAsCompleted(Integer serviceRequestId) {
         ServiceRequest serviceRequest = serviceRequestRepository.findById(serviceRequestId)
                 .orElseThrow(() -> new AppException(ErrorCode.SERVICE_REQUEST_NOT_EXISTED));
-        if(serviceRequest.getStatus() != EStatus.PENDING){
-            throw new AppException(ErrorCode.SERVICE_REQUEST_NOT_PENDING);
+        if(serviceRequest.getStatus() != EStatus.IN_PROGRESS){
+            throw new AppException(ErrorCode.SERVICE_REQUEST_NOT_IN_PROGRESS);
         }
         serviceRequest.setCompletedTime(LocalDateTime.now());
         serviceRequest.setStatus(EStatus.COMPLETED);
@@ -117,6 +118,55 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
         serviceRequestDTO.setVeterinarianId(serviceRequest.getVeterinarian().getAccountId());
         serviceRequestDTO.setShiftId(serviceRequest.getShift().getShiftId());
         return serviceRequestDTO;
+    }
+
+    @Override
+    public ServiceRequestDTO markServiceRequestAsInProgress(Integer serviceRequestId) {
+        ServiceRequest serviceRequest = serviceRequestRepository.findById(serviceRequestId)
+                .orElseThrow(() -> new AppException(ErrorCode.SERVICE_REQUEST_NOT_EXISTED));
+        if(serviceRequest.getStatus() != EStatus.PENDING){
+            throw new AppException(ErrorCode.SERVICE_REQUEST_NOT_PENDING);
+        }
+        serviceRequest.setStatus(EStatus.IN_PROGRESS);
+        serviceRequestRepository.save(serviceRequest);
+        ServiceRequestDTO serviceRequestDTO = modelMapper.map(serviceRequest, ServiceRequestDTO.class);
+
+        return serviceRequestDTO;
+    }
+
+    @Override
+    public List<ServiceRequestDTO> getAllServiceRequest() {
+        List<ServiceRequest> serviceRequests = serviceRequestRepository.findAll();
+        return serviceRequests.stream().map(serviceRequest -> modelMapper.map(serviceRequest, ServiceRequestDTO.class)).toList();
+    }
+
+    @Override
+    public List<ServiceRequestDTO> getServiceRequestByCustomerId(int customerId) {
+        List<ServiceRequest> serviceRequests = serviceRequestRepository.findServiceRequestsByCustomer_AccountId(customerId);
+        return serviceRequests.stream().map(serviceRequest -> modelMapper.map(serviceRequest, ServiceRequestDTO.class)).toList();
+    }
+
+    @Override
+    public List<ServiceRequestDTO> getServiceRequestByVeterinarianId(int veterinarianId) {
+        List<ServiceRequest> serviceRequests = serviceRequestRepository.findServiceRequestsByVeterinarian_AccountId(veterinarianId);
+        return serviceRequests.stream().map(serviceRequest -> modelMapper.map(serviceRequest, ServiceRequestDTO.class)).toList();
+    }
+
+    @Override
+    public List<ServiceRequestDTO> getServiceRequestByStatus(String status) {
+        List<ServiceRequest> serviceRequests = serviceRequestRepository.findServiceRequestsByStatus(EStatus.valueOf(status));
+        return serviceRequests.stream().map(serviceRequest -> modelMapper.map(serviceRequest, ServiceRequestDTO.class)).toList();
+    }
+
+    @Override
+    public List<ServiceRequestDTO> getServiceRequestByMyInfor() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        Account byUserName = accountRepository.findByUserName(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        List<ServiceRequest> serviceRequests = serviceRequestRepository.findServiceRequestsByCustomer_AccountId(byUserName.getAccountId());
+        return serviceRequests.stream().map(serviceRequest -> modelMapper.map(serviceRequest, ServiceRequestDTO.class)).toList();
     }
 
 }

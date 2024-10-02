@@ -50,4 +50,6 @@ public class ServiceRequest {
 
     @OneToMany(mappedBy = "serviceRequest")
     private List<Bill> bills;
+
+
 }

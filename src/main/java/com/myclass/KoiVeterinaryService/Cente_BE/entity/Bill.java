@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Bill")
 @Data
@@ -26,5 +28,11 @@ public class Bill {
     private ServiceKoi service;
 
     @Column(nullable = false)
+    private int quantity;
+
+    @Column(nullable = false)
     private boolean status;
+
+    @OneToMany(mappedBy = "bill")
+    private List<Feedback> feedbacks;
 }

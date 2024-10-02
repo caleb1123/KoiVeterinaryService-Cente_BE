@@ -37,4 +37,7 @@ public class ServiceKoi {
 
     @OneToMany(mappedBy = "service")
     private List<Bill> bills;
+
+    @OneToMany(mappedBy = "service")
+    private List<ServiceImage> images;
 }

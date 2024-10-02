@@ -21,15 +21,13 @@ public class Feedback {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+
     private Account customer;
 
-    @ManyToOne
-    @JoinColumn(name = "veterinarian_id", nullable = false)
-    private Account veterinarian;
 
     @ManyToOne
-    @JoinColumn(name = "service_id", nullable = false)
-    private ServiceKoi service;
+    @JoinColumn(name = "bill_id", nullable = false)
+    private Bill bill;
 
     @Column(nullable = false)
     private int ratingValue;
@@ -39,4 +37,7 @@ public class Feedback {
 
     @Column(nullable = false)
     private LocalDate ratingDate;
+
+    @Column(nullable = false)
+    private FeedbackType feedbackType;
 }

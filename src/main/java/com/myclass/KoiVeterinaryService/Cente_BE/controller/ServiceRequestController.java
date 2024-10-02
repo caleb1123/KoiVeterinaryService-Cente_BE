@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/servicekoi")
 @Slf4j
@@ -34,4 +36,42 @@ public class ServiceRequestController {
         ServiceRequestDTO serviceRequestDTO = serviceRequestService.markServiceRequestAsCANCELLED(serviceRequestId);
         return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
     }
+
+    @PutMapping("/appointments/inprogress/{serviceRequestId}")
+    public ResponseEntity<ServiceRequestDTO> markServiceRequestAsInProgress(@RequestParam Integer serviceRequestId) {
+        ServiceRequestDTO serviceRequestDTO = serviceRequestService.markServiceRequestAsInProgress(serviceRequestId);
+        return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/appointments")
+    public ResponseEntity<List<ServiceRequestDTO>> getAllServiceRequest() {
+        List<ServiceRequestDTO> serviceRequestDTO = serviceRequestService.getAllServiceRequest();
+        return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/appointments/customer/{customerId}")
+    public ResponseEntity<List<ServiceRequestDTO>> getServiceRequestByCustomerId(@RequestParam int customerId) {
+        List<ServiceRequestDTO> serviceRequestDTO = serviceRequestService.getServiceRequestByCustomerId(customerId);
+        return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/appointments/veterinarian/{veterinarianId}")
+    public ResponseEntity<List<ServiceRequestDTO>> getServiceRequestByVeterinarianId(@RequestParam int veterinarianId) {
+        List<ServiceRequestDTO> serviceRequestDTO = serviceRequestService.getServiceRequestByVeterinarianId(veterinarianId);
+        return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/appointments/status/{status}")
+    public ResponseEntity<List<ServiceRequestDTO>> getServiceRequestByStatus(@RequestParam String status) {
+        List<ServiceRequestDTO> serviceRequestDTO = serviceRequestService.getServiceRequestByStatus(status);
+        return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/appointments/myinfor")
+    public ResponseEntity<List<ServiceRequestDTO>> getServiceRequestByMyInfor() {
+        List<ServiceRequestDTO> serviceRequestDTO = serviceRequestService.getServiceRequestByMyInfor();
+        return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
+    }
+
+
 }

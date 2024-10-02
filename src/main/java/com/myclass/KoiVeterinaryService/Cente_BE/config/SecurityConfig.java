@@ -22,6 +22,8 @@ public class SecurityConfig {
             "/service/**",
             "/servicekoi/**",
             "/bill/**",
+            "/feedback/**",
+            "/serviceimage/**",
             "/swagger-ui/**",  // Thêm endpoint Swagger UI
             "/v3/api-docs/**"   // Thêm endpoint API docs
     };

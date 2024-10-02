@@ -1,9 +1,7 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.config;
 
-import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
-import com.myclass.KoiVeterinaryService.Cente_BE.entity.Bill;
+import com.myclass.KoiVeterinaryService.Cente_BE.entity.*;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.*;
-import com.myclass.KoiVeterinaryService.Cente_BE.entity.ServiceRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
 import org.modelmapper.ModelMapper;
@@ -27,6 +25,20 @@ public class AppConfig {
         modelMapper.typeMap(Bill.class, BillDTO.class).addMappings(mapper -> {
             mapper.map(src -> src.getServiceRequest().getRequestId(), BillDTO::setRequestId);
             mapper.map(src -> src.getService().getServiceId(), BillDTO::setServiceId);
+        });
+
+        modelMapper.typeMap(Feedback.class, FeedbackDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getCustomer().getAccountId(), FeedbackDTO::setCustomerId);
+            mapper.map(src -> src.getBill().getBillId(), FeedbackDTO::setBillId);});
+
+        modelMapper.typeMap(ServiceRequest.class, ServiceRequestDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getCustomer().getAccountId(), ServiceRequestDTO::setCustomerId);
+            mapper.map(src -> src.getShift().getShiftId(), ServiceRequestDTO::setShiftId);
+            mapper.map(src -> src.getVeterinarian().getAccountId(), ServiceRequestDTO::setVeterinarianId);
+        });
+
+        modelMapper.typeMap(ServiceImage.class, ServiceImageDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getService().getServiceId(), ServiceImageDTO::setServiceId);
         });
         return modelMapper;
     }

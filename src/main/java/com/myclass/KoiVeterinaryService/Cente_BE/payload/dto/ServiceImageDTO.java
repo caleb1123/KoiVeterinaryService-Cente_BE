@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BillDTO {
-    private int billId;
-    private int requestId;
+public class ServiceImageDTO {
+    private int imageId;
+    private String fileId;
+    private String imageUrl;
     private int serviceId;
-    private int quantity;
     private boolean status;
 }
