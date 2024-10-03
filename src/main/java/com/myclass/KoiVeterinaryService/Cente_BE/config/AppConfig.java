@@ -3,6 +3,7 @@ package com.myclass.KoiVeterinaryService.Cente_BE.config;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.*;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.*;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.dto.PostDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -39,6 +40,14 @@ public class AppConfig {
 
         modelMapper.typeMap(ServiceImage.class, ServiceImageDTO.class).addMappings(mapper -> {
             mapper.map(src -> src.getService().getServiceId(), ServiceImageDTO::setServiceId);
+        });
+
+        modelMapper.typeMap(Post.class, PostDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getAccount().getAccountId(), PostDTO::setAuthorId);
+        });
+
+        modelMapper.typeMap(PostImage.class, PostImageDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getPost().getPostId(), PostImageDTO::setPostId);
         });
         return modelMapper;
     }

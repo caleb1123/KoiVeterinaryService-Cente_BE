@@ -64,7 +64,8 @@ public enum ErrorCode {
     BILL_NOT_FOUND(1055, "Bill not found", HttpStatus.NOT_FOUND),
     SERVICE_REQUEST_NOT_FOUND(1056, "Service request not found", HttpStatus.NOT_FOUND),
     SERVICE_REQUEST_NOT_IN_PROGRESS(1057, "Service request not in progress", HttpStatus.BAD_REQUEST),
-    IMAGE_NOT_FOUND(1058, "Image not found", HttpStatus.NOT_FOUND);
+    IMAGE_NOT_FOUND(1058, "Image not found", HttpStatus.NOT_FOUND),
+    POST_EXISTED(1059, "Post existed", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
