@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Rating")
+@Table(name = "feedback")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,8 +21,7 @@ public class Feedback {
     private int ratingId;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-
+    @JoinColumn(name = "customer_id", nullable = false) // Use the correct column name from your DB
     private Account customer;
 
 
@@ -38,6 +38,7 @@ public class Feedback {
     @Column(nullable = false)
     private LocalDate ratingDate;
 
+    @Enumerated(EnumType.STRING) // Assuming FeedbackType is an enum
     @Column(nullable = false)
     private FeedbackType feedbackType;
 }

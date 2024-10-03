@@ -1,6 +1,7 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.controller;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.BillDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.BillResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.BillService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,11 @@ public class BillController {
         log.info("Fetching active bills for request ID: {}", requestId);
         List<BillDTO> bills = billService.findRequestByActive(requestId);
         return new ResponseEntity<>(bills, HttpStatus.OK);
+    }
+
+    @GetMapping("/request/{requestId}/total")
+    public ResponseEntity<BillResponse> getTotalAmount(@PathVariable int requestId) {
+        BillResponse bill = billService.findTotalAmount(requestId);
+        return new ResponseEntity<>(bill, HttpStatus.OK);
     }
 }

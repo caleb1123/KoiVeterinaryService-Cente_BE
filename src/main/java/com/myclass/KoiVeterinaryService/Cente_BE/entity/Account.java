@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Account")
 @Data
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;
@@ -44,4 +47,21 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+    // Map the relationship with Payment entity
+    @OneToMany(mappedBy = "account")
+    private List<Payment> payments;
+
+    // Map the relationship with ServiceRequest entity
+    @OneToMany(mappedBy = "customer")
+    private List<ServiceRequest> serviceRequests;
+
+    // Map the relationship with Feedback entity
+    @OneToMany(mappedBy = "customer")
+    private List<Feedback> feedbacks;
+
+    // Map the relationship with Post entity
+    @OneToMany(mappedBy = "account")
+    private List<Post> posts;
+
 }

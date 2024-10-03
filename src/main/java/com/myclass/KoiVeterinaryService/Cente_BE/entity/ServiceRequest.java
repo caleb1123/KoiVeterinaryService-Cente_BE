@@ -51,5 +51,6 @@ public class ServiceRequest {
     @OneToMany(mappedBy = "serviceRequest")
     private List<Bill> bills;
 
-
+    @OneToMany(mappedBy = "serviceRequest")
+    private List<Payment> payments;
 }

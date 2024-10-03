@@ -19,7 +19,7 @@ public class ServiceRequestController {
     @Autowired
     private ServiceRequestService serviceRequestService;
 
-    @PostMapping("/appointments")
+    @PostMapping("/appointments/create")
     public ResponseEntity<CreateServiceRequestDTO> createVetAppointment(@RequestBody CreateServiceRequestDTO serviceRequestDTO) {
         CreateServiceRequestDTO createdServiceRequest1 = serviceRequestService.createVetAppointmentService(serviceRequestDTO);
         return new ResponseEntity<>(createdServiceRequest1, HttpStatus.CREATED);

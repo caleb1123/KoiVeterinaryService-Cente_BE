@@ -7,6 +7,7 @@ import com.myclass.KoiVeterinaryService.Cente_BE.entity.ServiceRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.AppException;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.ErrorCode;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.BillDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.BillResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.BillRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.ServiceKoiRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.ServiceRequestRepository;
@@ -15,6 +16,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -39,6 +42,7 @@ public class BillServiceImpl implements BillService {
         Bill bill = new Bill();
         bill.setServiceRequest(serviceRequest);
         bill.setService(serviceKoi);
+        bill.setQuantity(billDTO.getQuantity());
         bill.setStatus(true);
         billRepository.save(bill);
         billDTO.setBillId(bill.getBillId());
@@ -93,4 +97,41 @@ public class BillServiceImpl implements BillService {
         }
         return bills.stream().map(bill -> modelMapper.map(bill, BillDTO.class)).toList();
     }
+
+    @Override
+    public BillResponse findTotalAmount(int requestId) {
+        // Validate service request
+        ServiceRequest serviceRequest = serviceRequestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.SERVICE_REQUEST_NOT_FOUND));
+
+        // Fetch total amount from the bill repository
+        Object result = billRepository.findTotalAmount(requestId);
+
+        // Ensure the result is not null and is an array of Object
+        if (result == null || !(result instanceof Object[])) {
+            throw new AppException(ErrorCode.BILL_NOT_FOUND);
+        }
+
+        // Cast the result to Object array
+        Object[] resultArray = (Object[]) result;
+
+        // Check if the result array has the expected length
+        if (resultArray.length < 2) {
+            throw new AppException(ErrorCode.BILL_NOT_FOUND);
+        }
+
+        // Create BillResponse object and populate it
+        BillResponse billResponse = new BillResponse();
+
+        // Cast and set the values
+        billResponse.setRequestId(((Number) resultArray[0]).intValue()); // Cast to Number and get int
+        billResponse.setTotal_amount(((Number) resultArray[1]).doubleValue()); // Cast to Number and get double
+
+        return billResponse; // Return the populated BillResponse object
+    }
+
+
+
+
+
 }
