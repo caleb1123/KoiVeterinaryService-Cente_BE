@@ -1,4 +1,4 @@
-package com.myclass.KoiVeterinaryService.Cente_BE.dto;
+package com.myclass.KoiVeterinaryService.Cente_BE.payload.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
