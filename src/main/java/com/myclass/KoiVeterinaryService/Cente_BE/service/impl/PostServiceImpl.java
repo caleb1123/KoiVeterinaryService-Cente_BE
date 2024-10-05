@@ -1,10 +1,10 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.service.impl;
 
-import com.myclass.KoiVeterinaryService.Cente_BE.dto.PostDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Post;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.AppException;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.ErrorCode;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.PostDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.AccountRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.PostRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.PostService;
