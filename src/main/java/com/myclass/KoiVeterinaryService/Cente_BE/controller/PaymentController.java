@@ -1,9 +1,9 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.controller;
 
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.PaymentDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.PaymentRequest2;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.PaymentResquest;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.PaymentResponse;
-import com.myclass.KoiVeterinaryService.Cente_BE.dto.PaymentDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.PaymentService;
 import com.myclass.KoiVeterinaryService.Cente_BE.vnpay.ResponseObject;
 import jakarta.servlet.http.HttpServletRequest;

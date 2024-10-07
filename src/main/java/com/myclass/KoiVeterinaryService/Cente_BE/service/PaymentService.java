@@ -1,9 +1,9 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.service;
 
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.PaymentDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.PaymentRequest2;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.PaymentResquest;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.PaymentResponse;
-import com.myclass.KoiVeterinaryService.Cente_BE.dto.PaymentDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
