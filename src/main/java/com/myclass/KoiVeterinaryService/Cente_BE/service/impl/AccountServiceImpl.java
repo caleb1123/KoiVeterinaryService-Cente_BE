@@ -6,6 +6,7 @@ import com.myclass.KoiVeterinaryService.Cente_BE.exception.AppException;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.ErrorCode;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateAccountRequest;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.UpdateAccountRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.AvailableVeterinariansResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.AccountRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.RoleRepository;
@@ -34,9 +35,11 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     ModelMapper modelMapper;
     @Override
-    public List<Account> findAll() {
+    public List<AccountDTO> findAll() {
         List<Account> accounts = accountRepository.findAll();
-        return accounts;
+        return accounts.stream()
+                .map(account -> modelMapper.map(account, AccountDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -70,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public Account updateAccount(AccountDTO account, String userName) {
+    public AccountDTO updateAccount(UpdateAccountRequest account, String userName) {
         Account existAccount = accountRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
@@ -79,8 +82,9 @@ public class AccountServiceImpl implements AccountService {
         existAccount.setFullName(account.getFullName());
         existAccount.setPhone(account.getPhone());
         existAccount.setAddress(account.getAddress());
+        existAccount.setActive(account.isActive());
         accountRepository.save(existAccount);
-        return existAccount;
+        return modelMapper.map(existAccount, AccountDTO.class);
     }
 
     @Override
@@ -96,11 +100,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account findByUserName(String userName) {
+    public AccountDTO findByUserName(String userName) {
         Account account = accountRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         if(account != null){
-            return account;
+            return modelMapper.map(account, AccountDTO.class);
         }
         return null;
     }

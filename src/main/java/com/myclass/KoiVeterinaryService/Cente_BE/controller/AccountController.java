@@ -3,12 +3,14 @@ package com.myclass.KoiVeterinaryService.Cente_BE.controller;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Account;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateAccountRequest;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.UpdateAccountRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.AvailableVeterinariansResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -21,11 +23,11 @@ import java.util.List;
 public class AccountController {
     @Autowired
     private AccountService accountService;
-
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/accounts")
-    public ResponseEntity<List<Account>> getAllAccounts() {
+    public ResponseEntity<List<AccountDTO>> getAllAccounts() {
         try {
-            List<Account> accounts = accountService.findAll();
+            List<AccountDTO> accounts = accountService.findAll();
             return ResponseEntity.ok(accounts);
         } catch (Exception ex) {
             return ResponseEntity.status(500).body(null);
@@ -43,8 +45,8 @@ public class AccountController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Account> updateAccount(@RequestBody AccountDTO account, @RequestParam String userName) {
-        Account updatedAccount = accountService.updateAccount(account, userName);
+    public ResponseEntity<AccountDTO> updateAccount(@RequestBody UpdateAccountRequest account, @RequestParam String userName) {
+        AccountDTO updatedAccount = accountService.updateAccount(account, userName);
 
         if (updatedAccount == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -65,8 +67,8 @@ public class AccountController {
     }
 
     @GetMapping("/findbyusername")
-    public ResponseEntity<Account> findByUserName(@RequestParam String userName) {
-        Account account = accountService.findByUserName(userName);
+    public ResponseEntity<AccountDTO> findByUserName(@RequestParam String userName) {
+        AccountDTO account = accountService.findByUserName(userName);
 
         if (account == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
