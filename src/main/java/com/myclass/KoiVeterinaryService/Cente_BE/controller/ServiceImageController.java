@@ -13,7 +13,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/serviceimage")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5157")
 public class ServiceImageController {
     @Autowired
     private ServiceImageService serviceImageService;

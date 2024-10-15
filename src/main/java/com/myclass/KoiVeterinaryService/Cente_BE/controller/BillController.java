@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/bill")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5157")
 public class BillController {
 
     @Autowired

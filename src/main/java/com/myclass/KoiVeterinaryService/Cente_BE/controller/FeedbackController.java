@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/feedback")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5157")
 public class FeedbackController {
     @Autowired
     private FeedbackService feedbackService;
