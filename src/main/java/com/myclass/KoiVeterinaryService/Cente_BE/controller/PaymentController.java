@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/payment")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:5153")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;
