@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/account")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:5157")
+@CrossOrigin(origins = "http://localhost:5153")
 public class AccountController {
     @Autowired
     private AccountService accountService;

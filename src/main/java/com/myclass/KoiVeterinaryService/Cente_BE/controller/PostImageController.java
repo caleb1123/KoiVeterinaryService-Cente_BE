@@ -13,7 +13,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/post-image")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:5157")
+@CrossOrigin(origins = "http://localhost:5153")
 public class PostImageController {
     @Autowired
     private PostImageService postImageService;
