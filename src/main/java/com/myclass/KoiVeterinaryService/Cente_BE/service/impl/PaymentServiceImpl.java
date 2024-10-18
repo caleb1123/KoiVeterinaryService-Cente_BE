@@ -72,8 +72,8 @@ public class PaymentServiceImpl implements PaymentService {
         int requestId = paymentRequest2.getRequestId();
         String username = account.getUserName();
         long amount = (long) billResponse.getTotal_amount()*100;
-        String bankCode = paymentRequest2.getBankCode();
-        String transactionId = paymentRequest2.getTransactionId();
+        String bankCode = "NCB";
+        String transactionId = "1";
         Map<String, String> vnpParamsMap;
         if (transactionId != null) {
             int id = Integer.parseInt(transactionId);

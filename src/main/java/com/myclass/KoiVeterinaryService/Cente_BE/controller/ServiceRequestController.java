@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/servicekoi")
+@RequestMapping("/servicerequest")
 @Slf4j
 @CrossOrigin(origins = "http://localhost:5173")
 public class ServiceRequestController {

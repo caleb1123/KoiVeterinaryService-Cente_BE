@@ -8,9 +8,7 @@ import lombok.Builder;
 @Data
 @Builder
 public class PaymentRequest2 {
-    private String bankCode;
     private int requestId;
-    private String transactionId;
     private String code;
     private String message;
     private String paymentUrl;
