@@ -32,9 +32,7 @@ public class FeedbackService implements com.myclass.KoiVeterinaryService.Cente_B
     public FeedbackDTO createFeedback(FeedbackDTO feedbackDTO) {
         Account customer = accountRepository.findById(feedbackDTO.getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
-        Bill bill = billRepository.findById(feedbackDTO.getBillId())
-                .orElseThrow(() -> new RuntimeException("Bill not found"));
-        ServiceRequest serviceRequest = serviceRequestRepository.findById(bill.getServiceRequest().getRequestId())
+        ServiceRequest serviceRequest = serviceRequestRepository.findById(feedbackDTO.getRequestId())
                 .orElseThrow(() -> new RuntimeException("Service request not found"));
         if(serviceRequest.getStatus() != EStatus.COMPLETED) {
             throw new RuntimeException("Service request is not completed");
@@ -46,7 +44,7 @@ public class FeedbackService implements com.myclass.KoiVeterinaryService.Cente_B
         FeedbackType feedbackType = FeedbackType.valueOf(feedbackDTO.getFeedbackType());
         Feedback feedback = modelMapper.map(feedbackDTO, Feedback.class);
         feedback.setCustomer(customer);
-        feedback.setBill(bill);
+        feedback.setRequest(serviceRequest);
         feedbackRepository.save(feedback);
         return modelMapper.map(feedbackRepository.save(feedback), FeedbackDTO.class);
     }

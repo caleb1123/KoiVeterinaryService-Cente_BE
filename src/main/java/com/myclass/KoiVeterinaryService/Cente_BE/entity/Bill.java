@@ -33,6 +33,5 @@ public class Bill {
     @Column(nullable = false)
     private boolean status;
 
-    @OneToMany(mappedBy = "bill")
-    private List<Feedback> feedbacks;
+
 }

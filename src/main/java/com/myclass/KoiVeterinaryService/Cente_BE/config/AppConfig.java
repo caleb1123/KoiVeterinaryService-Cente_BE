@@ -29,7 +29,7 @@ public class AppConfig {
 
         modelMapper.typeMap(Feedback.class, FeedbackDTO.class).addMappings(mapper -> {
             mapper.map(src -> src.getCustomer().getAccountId(), FeedbackDTO::setCustomerId);
-            mapper.map(src -> src.getBill().getBillId(), FeedbackDTO::setBillId);});
+            mapper.map(src -> src.getRequest().getRequestId(), FeedbackDTO::setRequestId);});
 
         modelMapper.typeMap(ServiceRequest.class, ServiceRequestDTO.class).addMappings(mapper -> {
             mapper.map(src -> src.getCustomer().getAccountId(), ServiceRequestDTO::setCustomerId);

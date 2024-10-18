@@ -53,4 +53,7 @@ public class ServiceRequest {
 
     @OneToMany(mappedBy = "serviceRequest")
     private List<Payment> payments;
+
+    @OneToMany(mappedBy = "request")
+    private List<Feedback> feedbacks;
 }

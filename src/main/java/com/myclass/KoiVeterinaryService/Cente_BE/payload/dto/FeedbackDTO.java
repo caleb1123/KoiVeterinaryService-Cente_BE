@@ -17,7 +17,7 @@ public class FeedbackDTO {
 
     private int customerId; // Reference to the customer account
 
-    private int billId; // Reference to the bill
+    private int requestId; // Reference to the bill
 
     private int ratingValue; // The rating score
 

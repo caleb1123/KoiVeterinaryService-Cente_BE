@@ -26,8 +26,8 @@ public class Feedback {
 
 
     @ManyToOne
-    @JoinColumn(name = "bill_id", nullable = false)
-    private Bill bill;
+    @JoinColumn(name = "request_id", nullable = false)
+    private ServiceRequest request;
 
     @Column(nullable = false)
     private int ratingValue;
