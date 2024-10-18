@@ -81,7 +81,7 @@ public class FeedbackService implements com.myclass.KoiVeterinaryService.Cente_B
     public List<FeedbackDTO> getFeedbackOfVeterinarianId(int veterinarianId) {
         Account veterinarian = accountRepository.findById(veterinarianId)
                 .orElseThrow(() -> new RuntimeException("Veterinarian not found"));
-        List<Feedback> feedbacks = feedbackRepository.findFeedbacksByBill_ServiceRequest_Veterinarian_AccountId(veterinarian.getAccountId());
+        List<Feedback> feedbacks = feedbackRepository.findFeedbacksByRequest_Veterinarian_AccountId(veterinarian.getAccountId());
         return feedbacks.stream().map(feedback -> modelMapper.map(feedback, FeedbackDTO.class)).toList();
     }
 
@@ -89,7 +89,7 @@ public class FeedbackService implements com.myclass.KoiVeterinaryService.Cente_B
     public List<FeedbackDTO> getFeedbackByServiceId(int serviceId) {
         ServiceKoi serviceKoi = serviceKoiRepository.findById(serviceId)
                 .orElseThrow(() -> new RuntimeException("Service not found"));
-        List<Feedback> feedbacks = feedbackRepository.findFeedbacksByBill_Service_ServiceId(serviceKoi.getServiceId());
+        List<Feedback> feedbacks = feedbackRepository.findFeedbacksByServiceId(serviceKoi.getServiceId());
         return feedbacks.stream().map(feedback -> modelMapper.map(feedback, FeedbackDTO.class)).toList();
     }
 
