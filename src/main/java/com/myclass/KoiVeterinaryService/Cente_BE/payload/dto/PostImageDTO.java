@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PostImageDTO {
+    private int postId;
     private String fileId;
     private String imageUrl;
     private boolean status;
-    private int postId;
+
 }

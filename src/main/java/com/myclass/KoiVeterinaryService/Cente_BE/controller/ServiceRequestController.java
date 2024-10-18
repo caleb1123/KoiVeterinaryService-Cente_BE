@@ -2,6 +2,7 @@ package com.myclass.KoiVeterinaryService.Cente_BE.controller;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.HistoryResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.ServiceRequestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,8 @@ public class ServiceRequestController {
     }
 
     @GetMapping("/appointments/customer/{customerId}")
-    public ResponseEntity<List<ServiceRequestDTO>> getServiceRequestByCustomerId(@RequestParam int customerId) {
-        List<ServiceRequestDTO> serviceRequestDTO = serviceRequestService.getServiceRequestByCustomerId(customerId);
+    public ResponseEntity<List<HistoryResponse>> getServiceRequestByCustomerId(@RequestParam int customerId) {
+        List<HistoryResponse> serviceRequestDTO = serviceRequestService.getServiceRequestByCustomerId(customerId);
         return new ResponseEntity<>(serviceRequestDTO, HttpStatus.OK);
     }
 

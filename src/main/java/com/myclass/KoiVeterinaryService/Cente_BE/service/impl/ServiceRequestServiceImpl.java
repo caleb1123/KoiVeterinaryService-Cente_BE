@@ -3,8 +3,11 @@ package com.myclass.KoiVeterinaryService.Cente_BE.service.impl;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.*;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.AppException;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.ErrorCode;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ShiftDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.HistoryResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.AccountRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.ServiceKoiRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.ServiceRequestRepository;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ServiceRequestServiceImpl implements ServiceRequestService {
@@ -141,9 +145,27 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     }
 
     @Override
-    public List<ServiceRequestDTO> getServiceRequestByCustomerId(int customerId) {
+    public List<HistoryResponse> getServiceRequestByCustomerId(int customerId) {
         List<ServiceRequest> serviceRequests = serviceRequestRepository.findServiceRequestsByCustomer_AccountId(customerId);
-        return serviceRequests.stream().map(serviceRequest -> modelMapper.map(serviceRequest, ServiceRequestDTO.class)).toList();
+
+        List<HistoryResponse> historyResponses = serviceRequests.stream().map(serviceRequest -> {
+            ShiftDTO shift = new ShiftDTO();
+            shift.setId(serviceRequest.getShift().getShiftId());
+            shift.setName(String.valueOf(serviceRequest.getShift().getShiftName()));
+            return HistoryResponse.builder()
+                    .requestId(serviceRequest.getRequestId())
+                    .customer(modelMapper.map(serviceRequest.getCustomer(), AccountDTO.class)) // Using ModelMapper to map to AccountDTO
+                    .veterinarianId(serviceRequest.getVeterinarian() != null
+                            ? modelMapper.map(serviceRequest.getVeterinarian(), AccountDTO.class)
+                            : null) // Optional veterinarian, mapped using ModelMapper
+                    .shift(shift) // Using ModelMapper to map to ShiftDTO
+                    .appointmentTime(serviceRequest.getAppointmentTime())
+                    .completedTime(serviceRequest.getCompletedTime())
+                    .status(serviceRequest.getStatus().toString()) // Assuming status is an ENUM
+                    .build();
+        }).collect(Collectors.toList());
+
+        return historyResponses;
     }
 
     @Override

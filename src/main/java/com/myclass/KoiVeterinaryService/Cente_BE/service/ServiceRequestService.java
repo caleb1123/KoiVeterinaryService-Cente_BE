@@ -2,6 +2,7 @@ package com.myclass.KoiVeterinaryService.Cente_BE.service;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.HistoryResponse;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ServiceRequestService {
 
     List<ServiceRequestDTO> getAllServiceRequest();
 
-    List<ServiceRequestDTO> getServiceRequestByCustomerId(int customerId);
+    List<HistoryResponse> getServiceRequestByCustomerId(int customerId);
 
     List<ServiceRequestDTO> getServiceRequestByVeterinarianId(int veterinarianId);
 
