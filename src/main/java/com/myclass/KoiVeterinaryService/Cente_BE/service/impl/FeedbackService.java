@@ -81,7 +81,7 @@ public class FeedbackService implements com.myclass.KoiVeterinaryService.Cente_B
     public List<FeedbackDTO> getFeedbackOfVeterinarianId(int veterinarianId) {
         Account veterinarian = accountRepository.findById(veterinarianId)
                 .orElseThrow(() -> new RuntimeException("Veterinarian not found"));
-        List<Feedback> feedbacks = feedbackRepository.findFeedbacksByRequest_Veterinarian_AccountId(veterinarian.getAccountId());
+        List<Feedback> feedbacks = feedbackRepository.findFeedbacksByVeterinarianAndType(veterinarian.getAccountId());
         return feedbacks.stream().map(feedback -> modelMapper.map(feedback, FeedbackDTO.class)).toList();
     }
 

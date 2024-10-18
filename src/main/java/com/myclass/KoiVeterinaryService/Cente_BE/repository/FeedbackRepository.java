@@ -31,5 +31,10 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
             "  ON b.[service_id] = s.[service_id]\n" +
             "WHERE s.[service_id] = 1;  ", nativeQuery = true)
     List<Feedback> findFeedbacksByServiceId(int serviceId);
-    List<Feedback> findFeedbacksByRequest_Veterinarian_AccountId(int veterinarianId);
+    @Query(value = "SELECT f.*\n" +
+            "FROM Feedback f \n" +
+            "JOIN service_request sr ON f.request_id = sr.request_id\n" +
+            " WHERE sr.veterinarian_id = 2 \n" +
+            "   AND f.feedback_type = 'VETERINARIAN'", nativeQuery = true)
+    List<Feedback> findFeedbacksByVeterinarianAndType(int veterinarianId);
 }
