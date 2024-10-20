@@ -1,5 +1,6 @@
 package com.myclass.KoiVeterinaryService.Cente_BE.payload.response;
 
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,4 +12,6 @@ import lombok.experimental.FieldDefaults;
 public class LoginResponse {
     String token;
     boolean authenticated;
+    AccountDTO account;
+
 }

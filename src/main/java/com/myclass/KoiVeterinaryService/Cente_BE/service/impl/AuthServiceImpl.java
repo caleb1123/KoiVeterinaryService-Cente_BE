@@ -5,6 +5,7 @@ import com.myclass.KoiVeterinaryService.Cente_BE.entity.OTP;
 import com.myclass.KoiVeterinaryService.Cente_BE.entity.Role;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.AppException;
 import com.myclass.KoiVeterinaryService.Cente_BE.exception.ErrorCode;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.IntrospectRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.LoginRequest;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.SignupRequest;
@@ -80,6 +81,7 @@ public class AuthServiceImpl implements AuthService {
         return LoginResponse.builder()
                 .token(token)
                 .authenticated(true)
+                .account(modelMapper.map(user, AccountDTO.class))
                 .build();
     }
 
