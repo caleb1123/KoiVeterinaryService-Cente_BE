@@ -184,6 +184,7 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     public List<ServiceRequestDTO> getServiceRequestByMyInfor() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
+
         Account byUserName = accountRepository.findByUserName(name)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 

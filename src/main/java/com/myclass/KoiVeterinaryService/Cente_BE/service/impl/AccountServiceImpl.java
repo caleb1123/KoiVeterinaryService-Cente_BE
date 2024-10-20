@@ -14,6 +14,7 @@ import com.myclass.KoiVeterinaryService.Cente_BE.service.AccountService;
 import jakarta.persistence.Access;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -138,6 +139,15 @@ public class AccountServiceImpl implements AccountService {
         return accounts.stream()
                 .map(account -> modelMapper.map(account, AccountDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AccountDTO myProfile() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        Account account = accountRepository.findByUserName(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        return modelMapper.map(account, AccountDTO.class);
     }
 
 

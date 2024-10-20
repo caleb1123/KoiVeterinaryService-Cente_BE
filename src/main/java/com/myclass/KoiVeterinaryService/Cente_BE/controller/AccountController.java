@@ -92,4 +92,9 @@ public class AccountController {
     public List<AccountDTO> getAccountByActive(@RequestParam boolean active) {
         return accountService.findAccountByActive(active);
     }
+
+    @GetMapping("/myprofile")
+    public AccountDTO getMyProfile() {
+        return accountService.myProfile();
+    }
 }
