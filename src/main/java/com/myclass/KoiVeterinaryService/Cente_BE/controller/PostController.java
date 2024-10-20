@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/post")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
     @Autowired
     private PostService postService;

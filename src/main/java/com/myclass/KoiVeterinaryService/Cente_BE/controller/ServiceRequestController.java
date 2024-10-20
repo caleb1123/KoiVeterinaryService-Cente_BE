@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/servicerequest")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ServiceRequestController {
     @Autowired
     private ServiceRequestService serviceRequestService;
