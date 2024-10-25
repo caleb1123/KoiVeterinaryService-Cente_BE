@@ -31,8 +31,8 @@ public class PaymentController {
 
     @GetMapping("/return")
     public void payCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String url = "http://localhost:3001/PaymentSuccess";
-        String urlFail = "http://localhost:3001/PaymentFailed";
+        String url = "http://localhost:3000/PaymentSuccess";
+        String urlFail = "http://localhost:3000/PaymentFailed";
         PaymentResponse payment = paymentService.handleCallback(request);
         if (payment.getCode().equals("00")) {
             response.sendRedirect(url);

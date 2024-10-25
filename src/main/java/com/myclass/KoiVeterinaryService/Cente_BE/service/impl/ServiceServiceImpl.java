@@ -64,8 +64,7 @@ public class ServiceServiceImpl implements ServiceService {
         ServiceKoi service= new ServiceKoi();
         service = serviceRepository.getReferenceById(serviceName);
         if (service != null) {
-            service.setActive(false);
-            serviceRepository.save(service);
+            serviceRepository.delete(service);
             return true;
         } else {
             throw new AppException(ErrorCode.SERVICE_NOT_FOUND);
