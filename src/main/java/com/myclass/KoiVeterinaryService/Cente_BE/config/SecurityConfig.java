@@ -27,6 +27,7 @@ public class SecurityConfig {
             "/post-image/**",
             "/payment/**",
             "/post/**",
+            "servicerequest/**",
             "/swagger-ui/**",  // Thêm endpoint Swagger UI
             "/v3/api-docs/**"   // Thêm endpoint API docs
     };

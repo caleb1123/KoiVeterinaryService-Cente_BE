@@ -16,8 +16,8 @@ public class ServiceRequestDTO {
 
     private int requestId; // The ID of the service request
 
-    private int customerId; // The customer ID
-    private int veterinarianId; // The veterinarian ID (optional)
+    private AccountDTO customerId; // The customer ID
+    private AccountDTO veterinarianId; // The veterinarian ID (optional)
     private int shiftId; // The shift ID
 
     private LocalDate appointmentTime; // The appointment time

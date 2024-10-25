@@ -109,8 +109,8 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
         serviceRequest.setStatus(EStatus.COMPLETED);
         serviceRequestRepository.save(serviceRequest);
         ServiceRequestDTO serviceRequestDTO = modelMapper.map(serviceRequest, ServiceRequestDTO.class);
-        serviceRequestDTO.setCustomerId(serviceRequest.getCustomer().getAccountId());
-        serviceRequestDTO.setVeterinarianId(serviceRequest.getVeterinarian().getAccountId());
+        serviceRequestDTO.setCustomerId(modelMapper.map(serviceRequest.getCustomer(), AccountDTO.class));
+        serviceRequestDTO.setVeterinarianId(modelMapper.map(serviceRequest.getVeterinarian(), AccountDTO.class));
         serviceRequestDTO.setShiftId(serviceRequest.getShift().getShiftId());
         return serviceRequestDTO;
     }
@@ -125,8 +125,8 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
         serviceRequest.setStatus(EStatus.CANCELLED);
         serviceRequestRepository.save(serviceRequest);
         ServiceRequestDTO serviceRequestDTO = modelMapper.map(serviceRequest, ServiceRequestDTO.class);
-        serviceRequestDTO.setCustomerId(serviceRequest.getCustomer().getAccountId());
-        serviceRequestDTO.setVeterinarianId(serviceRequest.getVeterinarian().getAccountId());
+        serviceRequestDTO.setCustomerId(modelMapper.map(serviceRequest.getCustomer(), AccountDTO.class));
+        serviceRequestDTO.setVeterinarianId(modelMapper.map(serviceRequest.getVeterinarian(), AccountDTO.class));
         serviceRequestDTO.setShiftId(serviceRequest.getShift().getShiftId());
         return serviceRequestDTO;
     }

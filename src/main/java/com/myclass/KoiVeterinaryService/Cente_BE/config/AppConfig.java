@@ -53,6 +53,12 @@ public class AppConfig {
             mapper.map(src -> src.getServiceRequest().getRequestId(), PaymentDTO::setRequestId);
             mapper.map(src -> src.getAccount().getAccountId(), PaymentDTO::setCustomerId);
         });
+
+        modelMapper.typeMap(ServiceRequest.class,ServiceRequestDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getCustomer(), ServiceRequestDTO::setCustomerId);
+            mapper.map(src -> src.getShift().getShiftId(), ServiceRequestDTO::setShiftId);
+            mapper.map(src -> src.getVeterinarian(), ServiceRequestDTO::setVeterinarianId);
+        });
         return modelMapper;
     }
 }
