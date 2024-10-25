@@ -7,6 +7,7 @@ import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.AccountDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ShiftDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.CreateServiceResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.HistoryResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.AccountRepository;
 import com.myclass.KoiVeterinaryService.Cente_BE.repository.ServiceKoiRepository;
@@ -35,7 +36,7 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     @Autowired
     ShiftRepository shiftRepository;
     @Override
-    public CreateServiceRequestDTO createVetAppointmentService(CreateServiceRequestDTO serviceRequestDTO) {
+    public CreateServiceResponse createVetAppointmentService(CreateServiceRequestDTO serviceRequestDTO) {
         Account customer = accountRepository.findAccountByAccountIdAndRole(1, serviceRequestDTO.getCustomerId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
@@ -88,7 +89,13 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 
         serviceRequestRepository.save(serviceRequest);
         serviceRequestDTO.setVeterinarianId(serviceRequest.getVeterinarian().getAccountId());
-        return serviceRequestDTO;
+
+        CreateServiceResponse createServiceResponse = new CreateServiceResponse();
+        createServiceResponse.setAppointmentTime(serviceRequest.getAppointmentTime());
+        createServiceResponse.setCustomerId(modelMapper.map(serviceRequest.getCustomer(), AccountDTO.class));
+        createServiceResponse.setShiftId(serviceRequest.getShift().getShiftId());
+        createServiceResponse.setVeterinarianId(modelMapper.map(serviceRequest.getVeterinarian(), AccountDTO.class));
+        return createServiceResponse;
     }
 
     @Override

@@ -2,12 +2,13 @@ package com.myclass.KoiVeterinaryService.Cente_BE.service;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.CreateServiceResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.HistoryResponse;
 
 import java.util.List;
 
 public interface ServiceRequestService {
-    CreateServiceRequestDTO createVetAppointmentService(CreateServiceRequestDTO serviceRequestDTO);
+    CreateServiceResponse createVetAppointmentService(CreateServiceRequestDTO serviceRequestDTO);
     ServiceRequestDTO markServiceRequestAsCompleted(Integer serviceRequestId);
 
     ServiceRequestDTO markServiceRequestAsCANCELLED(Integer serviceRequestId);

@@ -2,6 +2,7 @@ package com.myclass.KoiVeterinaryService.Cente_BE.controller;
 
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.dto.ServiceRequestDTO;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.request.CreateServiceRequestDTO;
+import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.CreateServiceResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.payload.response.HistoryResponse;
 import com.myclass.KoiVeterinaryService.Cente_BE.service.ServiceRequestService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +22,8 @@ public class ServiceRequestController {
     private ServiceRequestService serviceRequestService;
 
     @PostMapping("/appointments/create")
-    public ResponseEntity<CreateServiceRequestDTO> createVetAppointment(@RequestBody CreateServiceRequestDTO serviceRequestDTO) {
-        CreateServiceRequestDTO createdServiceRequest1 = serviceRequestService.createVetAppointmentService(serviceRequestDTO);
+    public ResponseEntity<CreateServiceResponse> createVetAppointment(@RequestBody CreateServiceRequestDTO serviceRequestDTO) {
+        CreateServiceResponse createdServiceRequest1 = serviceRequestService.createVetAppointmentService(serviceRequestDTO);
         return new ResponseEntity<>(createdServiceRequest1, HttpStatus.CREATED);
     }
 
