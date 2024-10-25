@@ -35,9 +35,9 @@ public class ServiceKoiController {
 
     // Xóa dịch vụ
     @DeleteMapping("/delete/{serviceId}")
-    public ResponseEntity<Void> deleteService(@RequestParam int serviceId) {
+    public ResponseEntity<String> deleteService(@PathVariable int serviceId) {
         serviceService.deleteService(serviceId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Delete success");
     }
 
     // Tìm dịch vụ theo ID

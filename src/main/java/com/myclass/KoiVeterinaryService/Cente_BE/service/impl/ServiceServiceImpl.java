@@ -40,6 +40,9 @@ public class ServiceServiceImpl implements ServiceService {
         Optional<ServiceKoi> existingServiceOpt = serviceRepository.findById(serviceName);
         if (existingServiceOpt.isPresent()) {
             ServiceKoi existingService = existingServiceOpt.get();
+            if(serviceDTO.getServiceName() != null){
+                existingService.setServiceName(serviceDTO.getServiceName());
+            }
             existingService.setPrice(serviceDTO.getPrice());
             if(serviceDTO.getDescription() != null){
                 existingService.setDescription(serviceDTO.getDescription());
@@ -61,7 +64,8 @@ public class ServiceServiceImpl implements ServiceService {
         ServiceKoi service= new ServiceKoi();
         service = serviceRepository.getReferenceById(serviceName);
         if (service != null) {
-            serviceRepository.delete(service);
+            service.setActive(false);
+            serviceRepository.save(service);
             return true;
         } else {
             throw new AppException(ErrorCode.SERVICE_NOT_FOUND);
