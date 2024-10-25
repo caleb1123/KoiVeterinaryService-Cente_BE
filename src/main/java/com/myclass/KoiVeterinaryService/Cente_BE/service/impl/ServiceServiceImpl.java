@@ -36,8 +36,8 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public ServiceDTO updateService(UpdateServiceRequest serviceDTO,String serviceName) {
-        Optional<ServiceKoi> existingServiceOpt = serviceRepository.findByServiceName(serviceName);
+    public ServiceDTO updateService(UpdateServiceRequest serviceDTO,int serviceName) {
+        Optional<ServiceKoi> existingServiceOpt = serviceRepository.findById(serviceName);
         if (existingServiceOpt.isPresent()) {
             ServiceKoi existingService = existingServiceOpt.get();
             existingService.setPrice(serviceDTO.getPrice());
@@ -57,14 +57,15 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public boolean deleteService(String serviceName) {
+    public boolean deleteService(int serviceName) {
         ServiceKoi service= new ServiceKoi();
-        if (serviceRepository.existsByServiceName(serviceName)) {
-            service = serviceRepository.findByServiceName(serviceName).get();
+        service = serviceRepository.getReferenceById(serviceName);
+        if (service != null) {
             serviceRepository.delete(service);
             return true;
+        } else {
+            throw new AppException(ErrorCode.SERVICE_NOT_FOUND);
         }
-        throw new AppException(ErrorCode.SERVICE_NOT_FOUND); // Không tìm thấy dịch vụ để xóa
     }
 
     @Override

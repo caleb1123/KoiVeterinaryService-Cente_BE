@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface ServiceService {
     ServiceDTO createService(ServiceDTO serviceDTO);
-    ServiceDTO updateService(UpdateServiceRequest serviceDTO,String serviceName);
-    boolean deleteService(String serviceName);
+    ServiceDTO updateService(UpdateServiceRequest serviceDTO,int serviceName);
+    boolean deleteService(int serviceName);
     ServiceDTO findById(String serviceName);
     List<ServiceDTO> findAll();
 

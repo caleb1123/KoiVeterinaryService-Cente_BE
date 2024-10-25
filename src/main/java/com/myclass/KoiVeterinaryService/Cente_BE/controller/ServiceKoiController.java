@@ -28,15 +28,15 @@ public class ServiceKoiController {
 
     // Cập nhật dịch vụ
     @PutMapping("/update/{serviceId}")
-    public ResponseEntity<ServiceDTO> updateService(@RequestParam String serviceName, @RequestBody UpdateServiceRequest serviceDTO) {
-        ServiceDTO updatedService = serviceService.updateService(serviceDTO,serviceName);
+    public ResponseEntity<ServiceDTO> updateService(@RequestParam int serviceId, @RequestBody UpdateServiceRequest serviceDTO) {
+        ServiceDTO updatedService = serviceService.updateService(serviceDTO,serviceId);
         return ResponseEntity.ok(updatedService);
     }
 
     // Xóa dịch vụ
     @DeleteMapping("/delete/{serviceId}")
-    public ResponseEntity<Void> deleteService(@RequestParam String serviceName) {
-        serviceService.deleteService(serviceName);
+    public ResponseEntity<Void> deleteService(@RequestParam int serviceId) {
+        serviceService.deleteService(serviceId);
         return ResponseEntity.noContent().build();
     }
 
